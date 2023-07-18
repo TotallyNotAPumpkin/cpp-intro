@@ -1,6 +1,8 @@
 #include <iostream>
 #include <math.h>
 #include <vector>
+#include <string>
+#include <array>
 
 int add(int x, int y)
 {
@@ -102,12 +104,38 @@ class Polygon {
   }
 
   double area() {
+    double area = 0;
     for(int i = 1; i < (vp.size() - 1); i++) {
-      
+      area += Triangle(vp[0], vp[i], vp[i+1]).area();
     }
+    return area;
+  }
+
+  double perimeter() {
+    double perimeter = 0;
+    for(int i = 0; i < vp.size(); i++) {
+      perimeter += Line(vp[i], vp[i+1]).length();
+    }
+    return perimeter;
   }
 };
 
+class AUV {
+  public:
+  std::string name;
+  Point position;
+  double depth;
+  double heading;
+  std::array<double, 3> speed;
+  double angular_speed;
+
+  AUV(const std::string &name, Point position, double depth, double heading, std::array<double, 3> speed, double angular_speed): name(name), position(position), depth(depth), heading(heading), speed(speed), angular_speed(angular_speed){
+  }
+
+  void step(double dt) {
+    std::cout << "AAA Okay it's break time cya <3" << std::endl;
+  }
+};
 
 int main()
 {
@@ -131,11 +159,14 @@ int main()
   Point p3 = Point(3, 1);
   Line l = Line(p, p1);
   Triangle t = Triangle(p, p1, p3);
+  Polygon b = Polygon({p, p1, p3});
 
   std::cout << "The distance from point (" << p.x << ", " << p.y << ") and the origin is " << p.distance_to_origin() << std::endl; 
   std::cout << "The distance from point (" << p.x << ", " << p.y << ") and point (" << p1.x << ", " << p1.y << ") is " << p.distance_to_point(p1) << std::endl;
   std::cout << "The length from of line p-p1 is " << l.length() << std::endl;
   std::cout << "The distance from point p to line l is: " << l.distance_to_point(p3) << std::endl;
   std::cout << "The area of triangle p1, p2, p3 is: " << t.area() << std::endl;
+  std::cout << "The area of polygon b is: " << b.area() << std::endl;
+  std::cout << "The perimeter of polygon b is: " << b.perimeter() << std::endl;
   return 0;
 }
