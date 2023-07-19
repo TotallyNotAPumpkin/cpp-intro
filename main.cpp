@@ -133,7 +133,21 @@ class AUV {
   }
 
   void step(double dt) {
-    std::cout << "AAA Okay it's break time cya <3" << std::endl;
+    this->position.x += this->speed[0] * dt;
+    this->position.y += this->speed[1] * dt;
+    this->depth += this->speed[2] * dt;
+  }
+
+  void apply_acceleration(std::array<double, 3> accel, double dt) {
+    this->speed[0] += accel[0] * dt;
+    this->speed[1] += accel[1] * dt;
+    this->speed[2] += accel[2] * dt;
+    this->step(dt);
+  }
+
+  void apply_angular_acceleration(double angular_acceleration, double dt) {
+    this->angular_speed += angular_acceleration * dt;
+    this->heading += angular_speed * dt;
   }
 };
 
